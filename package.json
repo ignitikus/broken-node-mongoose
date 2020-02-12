@@ -1,8 +1,8 @@
 {
   "name": "node-mongoose",
   "version": "1.0.0",
-  "description": "",
-  "main": "app.js",
+  "description": "**Fix all of the broken code and make the app run correctly**",
+  "main": "index.js",
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
@@ -19,5 +19,13 @@
   },
   "devDependencies": {
     "dotenv": "^8.2.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ignitikus/broken-node-mongoose.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ignitikus/broken-node-mongoose/issues"
+  },
+  "homepage": "https://github.com/ignitikus/broken-node-mongoose#readme"
 }

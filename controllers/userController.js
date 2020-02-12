@@ -5,7 +5,6 @@ module.exports = {
   register: (req, res) => {
     return new Promise((resolve, reject) => {
       const { name, email, password } = req.body;
-
       //validate input
       if (
         req.body.name.length === 0 ||
@@ -42,13 +41,14 @@ module.exports = {
 
   login: (req, res) => {
     return new Promise((resolve, reject) => {
-      findOne({ email: req.body.email })
+      User.findOne({ email: req.body.email })
         .then(user => {
+          if(user ===null) return res.status(200).json({message:'Incorrect credentials'})
           bcrypt
             .compare(req.body.password, user.password)
             .then(user => {
               return res.send(
-                user === true
+                user
                   ? 'You are now logged in'
                   : 'Incorrect credentials'
               );
@@ -65,9 +65,9 @@ module.exports = {
       User.findById({ _id: req.params.id })
         .then(user => {
           const { name, email } = req.body;
-
-          user.name = req.body.name ? req.body.name : user.name;
-          user.email = req.body.email ? req.body.email : user.email;
+          if(!name && !email) return res.status(200).json({ message: 'No changes were made'})
+          user.name = name ? name : user.name;
+          user.email = email ? email : user.email;
 
           user
             .save()
@@ -85,6 +85,7 @@ module.exports = {
       return new Promise((resolve, reject) => {
         User.findByIdAndDelete({ _id: req.params.id })
           .then(user => {
+            if(user===null) return res.status(400).json({ message: 'This user does not exist' })
             return res.status(200).json({ message: 'User Deleted', user });
           })
           .catch(err => res.status(400).json({ message: 'No User To Delete' }));
